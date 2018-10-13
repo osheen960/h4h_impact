@@ -1,1 +1,99 @@
-//html goes here, for the button and stuff
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <script>
+// update file
+function getCSV() {
+
+    var filePath = document.getElementById("eventbritecsv"); // local csv file
+    alert(filePath.value);
+    /*var ss = SpreadsheetApp.openById(''); // data_sheet_id = id of spreadsheet that holds the data to be updated with new data from the csvfile
+    var sd = SpreadsheetApp.getActiveSpreadsheet();
+    var s  = SpreadsheetApp.getActiveSheet();
+    var target = new Array()
+    var sSheet = SpreadsheetApp.getActiveSpreadsheet();
+    sheet = SpreadsheetApp.setActiveSheet(sSheet.getSheets()[0]);
+    
+    if ( fi.hasNext()) {
+    var file = fi.next();
+    var csv = file.getBlob().getDataAsString();
+    var csvData = CSVToArray(csv); // see below for CSVToArray function
+    
+    var sheet = ss.getSheets()[0];
+    
+    var lastrow = s.getLastRow();
+    s.getRange(lastrow + 1, 1, csvData.length, csvData[5].length).setValues(csvData);
+    
+    }
+    alert('new records added');*/
+    };
+    
+    
+    function CSVToArray( strData, strDelimiter ){
+    
+    strDelimiter = (strDelimiter || ";");
+    
+       var objPattern = new RegExp(
+        (
+            // Delimiters.
+            "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+    
+            // Quoted fields.
+            "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+    
+            // Standard fields.
+            "([^\"\\" + strDelimiter + "\\r\\n]*))"
+        ),
+        "gi"
+        );
+    
+    var arrData = [[]];
+    
+    var arrMatches = null;
+    
+    while (arrMatches = objPattern.exec( strData )){
+    
+    
+        var strMatchedDelimiter = arrMatches[ 1 ];
+        if (
+            strMatchedDelimiter.length &&
+            strMatchedDelimiter !== strDelimiter
+            ){
+    
+            // Since we have reached a new row of data,
+            // add an empty row to our data array.
+            arrData.push( [] );
+    
+        }
+    
+        var strMatchedValue;
+        if (arrMatches[ 2 ]){
+            strMatchedValue = arrMatches[ 2 ].replace(
+                new RegExp( "\"\"", "g" ),
+                "\""
+                );
+    
+        } else {
+    
+            strMatchedValue = arrMatches[ 3 ];
+        }
+    
+        arrData[ arrData.length - 1 ].push( strMatchedValue );
+    }
+    return( arrData );
+      }
+        </script>
+</head>
+
+<body>
+
+<!-- Selection box and button to select file to be merged, and initiate merge action -->
+    <input type="file" id="eventbritecsv" name="eventbritecsv"/>
+<!-- Button to merge data -->
+    <button onclick = getCSV()> Merge </button>
+
+</body>
+
+</html>
